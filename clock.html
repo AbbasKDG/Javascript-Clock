@@ -1,0 +1,129 @@
+<DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Analog Clock</title>
+    </head>
+    <body>
+      <div class="clock">
+        <div class="clockFace">
+          <div class="digital">
+            <div class="digHours"></div>
+            <div class="digMins"></div>
+            <div class="digSecs"></div>
+          </div>
+          <div class="hand hourHand"></div>
+          <div class="hand minHand"></div>
+          <div class="hand secHand"></div>
+        </div>
+      </div>
+
+      <style>
+        html {
+          background: rgb(223, 223, 223) url("./whitewall.jpg");
+          background-size: cover;
+          background-repeat: no-repeat;
+          background-position: right-top;
+          background-attachment: fixed;
+        }
+        body {
+          margin: 0;
+          font-size: 2rem;
+          display: flex;
+          flex: 1;
+          min-height: 100vh;
+          align-items: center;
+        }
+        .clock {
+          width: 600px;
+          height: 600px;
+          border: 20px black white;
+          border-radius: 50%;
+          margin: 50px auto;
+          position: relative;
+          padding: 2rem;
+          box-shadow: 0 0 0px rgba(0, 0, 0, 0.1), inset 0 0 0 3px #efefef,
+            inset 0 0 10px black, 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .clockFace {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          transform: translateY(-3px);
+        }
+        .hand {
+          width: 50%;
+          height: 10px;
+          border-radius: 25%;
+
+          background: black;
+          position: absolute;
+          top: 50%;
+          transform-origin: 100%;
+          transform: rotate(90deg);
+          transition: all 0.05s;
+          transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+        }
+        .hourHand {
+          height: 16px;
+        }
+        .secHand {
+          height: 6px;
+        }
+
+        .digital {
+          display: flex;
+          z-index: 3;
+          position: relative;
+          color: rgb(255, 60, 0);
+          text-shadow: 2px 2px #000000;
+
+          size: 40px;
+          position: absolute;
+          top: 50%;
+          left: 20%;
+          background-color: rgba(0, 0, 0, 0.299);
+          border-radius: 30%;
+        }
+      </style>
+
+      <script>
+        //querySelector works better than getElementByClass
+        const hourHand = document.querySelector(".hourHand");
+        const minHand = document.querySelector(".minHand");
+        const secHand = document.querySelector(".secHand");
+        //Digital Clock
+        const digHours = document.querySelector(".digHours");
+        const digMins = document.querySelector(".digMins");
+        const digSecs = document.querySelector(".digSecs");
+
+        function updateHands() {
+          var time = new Date();
+
+          var hourTime = time.getHours() + 23;
+          var minTime = time.getMinutes();
+          var secTime = time.getSeconds();
+
+          var hourAngle =
+            (360 / 12) * hourTime + //hour contribution to hour hand
+            (30 / 60) * minTime; //min contribution to hour hand
+          var minAngle =
+            (360 / 60) * minTime + //min contribution to min hand
+            (6 / 60) * secTime; //second contribution to min hand
+          var secAngle = (360 / 60) * secTime; //second contribution to seconds
+
+          secHand.style.transform = `rotate(${secAngle + 90}deg)`;
+          minHand.style.transform = `rotate(${minAngle + 90}deg)`;
+          hourHand.style.transform = `rotate(${hourAngle + 90}deg)`;
+
+          digHours.innerHTML = ` ${hourTime} Hours:`;
+          digMins.innerHTML = ` ${minTime} Minutes:`;
+          digSecs.innerHTML = ` ${secTime} Seconds`;
+        }
+
+        setInterval(updateHands, 1000);
+        updateHands();
+      </script>
+    </body>
+  </html>
+</DOCTYPE>
