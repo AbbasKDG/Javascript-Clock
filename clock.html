@@ -68,7 +68,7 @@
           height: 16px;
         }
         .secHand {
-          height: 6px;
+          height: 3px;
         }
 
         .digital {
@@ -81,7 +81,7 @@
           size: 40px;
           position: absolute;
           top: 50%;
-          left: 20%;
+          left: 15%;
           background-color: rgba(0, 0, 0, 0.299);
           border-radius: 30%;
         }
@@ -100,7 +100,7 @@
         function updateHands() {
           var time = new Date();
 
-          var hourTime = time.getHours() + 23;
+          var hourTime = (time.getHours() + 23) % 24;
           var minTime = time.getMinutes();
           var secTime = time.getSeconds();
 
